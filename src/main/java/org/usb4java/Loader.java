@@ -324,7 +324,12 @@ public final class Loader
             final String javaHome = System.getProperty("java.home");
             if (javaHome != null)
             {
-                final File libFile = new File(javaHome, "lib" + File.separator + System.mapLibraryName(libraryName));
+                final String mappedName = System.mapLibraryName(libraryName);
+                File libFile = new File(javaHome, "lib" + File.separator + mappedName);
+                if (!libFile.exists())
+                {
+                    libFile = new File(javaHome, "lib" + File.separator + "lib" + mappedName);
+                }
                 if (libFile.exists())
                 {
                     System.load(libFile.getAbsolutePath());

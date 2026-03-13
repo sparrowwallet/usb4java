@@ -321,6 +321,16 @@ public final class Loader
         final String libraryName = System.getProperty("org.usb4java.LibraryName");
         if (libraryName != null)
         {
+            final String javaHome = System.getProperty("java.home");
+            if (javaHome != null)
+            {
+                final File libFile = new File(javaHome, "lib" + File.separator + System.mapLibraryName(libraryName));
+                if (libFile.exists())
+                {
+                    System.load(libFile.getAbsolutePath());
+                    return;
+                }
+            }
             System.loadLibrary(libraryName);
         }
         else
